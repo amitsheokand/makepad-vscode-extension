@@ -1,0 +1,165 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Makepad DSL",
+  "scopeName": "source.makepad",
+  "patterns": [
+    {
+      "include": "#live-design-macro"
+    }
+  ],
+  "repository": {
+    "live-design-macro": {
+      "begin": "(live_design!)\\s*(\\{|\\()",
+      "beginCaptures": {
+        "1": { "name": "entity.name.function.macro.rust" },
+        "2": { "name": "punctuation.section.block.begin.makepad" }
+      },
+      "end": "(\\}|\\));?",
+      "endCaptures": {
+        "1": { "name": "punctuation.section.block.end.makepad" }
+      },
+      "name": "meta.embedded.block.makepad",
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#use-statement" },
+        { "include": "#widget-definition" },
+        { "include": "#widget-instance" },
+        { "include": "#property" },
+        { "include": "#color" },
+        { "include": "#number" },
+        { "include": "#string" },
+        { "include": "#keyword" },
+        { "include": "#function" },
+        { "include": "#identifier" }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.makepad",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.makepad",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "use-statement": {
+      "match": "(use)\\s+([\\w:]+::\\*|[\\w:]+)",
+      "captures": {
+        "1": { "name": "keyword.control.use.makepad" },
+        "2": { "name": "entity.name.namespace.makepad" }
+      }
+    },
+    "widget-definition": {
+      "match": "(pub\\s+)?(\\w+)\\s*=\\s*\\{\\{(\\w+)\\}\\}",
+      "captures": {
+        "1": { "name": "keyword.other.pub.makepad" },
+        "2": { "name": "entity.name.type.widget.makepad" },
+        "3": { "name": "entity.name.type.rust-struct.makepad" }
+      }
+    },
+    "widget-instance": {
+      "match": "(\\w+)\\s*=\\s*<(\\w+)>",
+      "captures": {
+        "1": { "name": "variable.other.property.makepad" },
+        "2": { "name": "entity.name.type.widget.makepad" }
+      }
+    },
+    "property": {
+      "match": "(\\w+)\\s*:",
+      "captures": {
+        "1": { "name": "variable.other.property.makepad" }
+      }
+    },
+    "color": {
+      "patterns": [
+        {
+          "name": "constant.other.color.hex.makepad",
+          "match": "#[0-9A-Fa-f]{1,8}"
+        },
+        {
+          "name": "constant.other.color.named.makepad",
+          "match": "\\b(THEME_COLOR_[A-Z_0-9]+)\\b"
+        }
+      ]
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.makepad",
+          "match": "\\b\\d+\\.\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.makepad",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "string": {
+      "name": "string.quoted.double.makepad",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.makepad",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "name": "keyword.other.layout.makepad",
+          "match": "\\b(width|height|margin|padding|spacing|align|flow|abs_pos|clip_x|clip_y)\\b"
+        },
+        {
+          "name": "keyword.other.size.makepad",
+          "match": "\\b(Fill|Fit|Fixed|All)\\b"
+        },
+        {
+          "name": "keyword.other.flow.makepad",
+          "match": "\\b(Down|Right|Overlay|RightWrap)\\b"
+        },
+        {
+          "name": "keyword.other.fit.makepad",
+          "match": "\\b(Stretch|Horizontal|Vertical|Smallest|Biggest|Size|Centered)\\b"
+        },
+        {
+          "name": "keyword.other.animation.makepad",
+          "match": "\\b(animator|default|from|apply|Forward|Snap|Loop|Bounce)\\b"
+        },
+        {
+          "name": "keyword.control.makepad",
+          "match": "\\b(fn|let|return|if|else|for|while|match|self|true|false)\\b"
+        },
+        {
+          "name": "storage.modifier.makepad",
+          "match": "\\b(pub|instance|uniform|texture|varying)\\b"
+        }
+      ]
+    },
+    "function": {
+      "match": "(fn)\\s+(\\w+)\\s*\\(",
+      "captures": {
+        "1": { "name": "keyword.other.fn.makepad" },
+        "2": { "name": "entity.name.function.makepad" }
+      }
+    },
+    "identifier": {
+      "patterns": [
+        {
+          "name": "entity.name.type.makepad",
+          "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+        },
+        {
+          "name": "variable.other.makepad",
+          "match": "\\b[a-z_][a-z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}
+

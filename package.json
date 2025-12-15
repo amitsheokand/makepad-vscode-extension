@@ -1,0 +1,36 @@
+{
+  "name": "makepad-live-design",
+  "displayName": "Makepad Live Design",
+  "description": "Snippets, autocomplete, and hover docs for Makepad live_design! macro",
+  "version": "0.2.0",
+  "publisher": "amitsheokand",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Snippets",
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:rust"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "rust",
+        "path": "./snippets/makepad.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.0.0"
+  }
+}
